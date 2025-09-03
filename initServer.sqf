@@ -1,0 +1,1 @@
+call compileFinal preprocessFileLineNumbers "builderServer.sqf";
