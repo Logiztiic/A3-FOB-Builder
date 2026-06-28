@@ -8,7 +8,7 @@ fob_ghostAngle = 0;
 fob_ghostHeightOffset = 0;
 fob_buildConfirmed = false;
 fob_buildCancelled = false;
-
+fob_keyDownEH = -1;
 
 fob_getAimPos = {
     private _screenCenter = [0.5, 0.5];
@@ -136,8 +136,14 @@ fob_startBuildFlow = {
 
 fob_bindBuildControls = {
     waitUntil { !isNull findDisplay 46 };
+    private _disp = findDisplay 46;
 
-    (findDisplay 46) displayAddEventHandler ["KeyDown", {
+    if (fob_keyDownEH >= 0) then {
+        _disp displayRemoveEventHandler ["KeyDown", fob_keyDownEH];
+        fob_keyDownEH = -1;
+    };
+
+    fob_keyDownEH = _disp displayAddEventHandler ["KeyDown", {
         params ["_display", "_keyCode"];
 
         if (isNull fob_ghostObj) exitWith { false };
